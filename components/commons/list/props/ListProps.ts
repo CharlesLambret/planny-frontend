@@ -1,12 +1,18 @@
 import {  Entry , ListItemProps} from "./ListGaleryProps";
 
 export default interface ListProps  extends ListItemProps {
+  // Props Liste
   entries: Entry[];
+  itemsPerPage: number;
+  elements : 'list' | 'galery';
+  listLabel?: string;
+
+  // Barre de recherche
   searchBarLabel?: string;
   searchTerm?: string;
   searchBarPlaceholder?: string;
-
-  listLabel?: string;
+  filterLabel?: string | '';
+  selectedFilters?: string[];
   filtersInput?: {
     label: string;
     name: string;
@@ -14,11 +20,7 @@ export default interface ListProps  extends ListItemProps {
     value: string[];
     options?: string[];
   };
-  selectedFilters?: string[];
-  itemsPerPage: number;
-  elements : 'list' | 'galery';
-  filterLabel?: string | '';
-  handleSearchChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleFilterChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearchChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 
 } 

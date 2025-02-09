@@ -2,12 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { fetchRecettes } from '@/api/recettes/apicalls';
 import {Recette} from '@/api/recettes/apicalls';
-import ListComponent from '@/components/commons/list/List';
-import PageIndication from '@/components/commons/misc/pageindication';
-import { List } from '@material-tailwind/react';
 import IndexPageTemplate from '@/components/templates';
 import { typeMapping } from './[id]';
-import { ClockIcon } from '@heroicons/react/24/outline';
 
 const RecettesList: React.FC = () => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
