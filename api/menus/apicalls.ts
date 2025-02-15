@@ -6,7 +6,6 @@ const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 export interface Menu {
   start_date: Date;
   end_date: Date;
-  image_path: string;
   recettes: Recette[];
   id?: number;
 

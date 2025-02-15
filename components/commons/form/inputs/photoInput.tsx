@@ -1,6 +1,6 @@
 import React from 'react';
-import { uploadImage } from '../../../api/image';
-import { PhotoInputProps } from './props/InputsProps';
+import { uploadImage } from '../../../../api/image';
+import { PhotoInputProps } from './props';
 
 const PhotoInput: React.FC<PhotoInputProps> = ({ handleImageUploaded }) => {
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {

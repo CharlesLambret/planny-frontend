@@ -1,33 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { fetchIngredients, Ingredient } from '../../api/ingredients/apicalls';
+import { fetchMenus, Menu } from '../../api/menus/apicalls';
 import IndexPageTemplate from '@/components/templates';
  
 
-const IngredientsList: React.FC = () => {
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+const MenusList: React.FC = () => {
+  const [menus, setMenus] = useState<Menu[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const router = useRouter();
-
+const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   useEffect(() => {
-    const getIngredients = async () => {
+    const getMenus = async () => {
       try {
-        const data = await fetchIngredients();
-        setIngredients(data);
+        const data = await fetchMenus();
+        setMenus(data);
       } catch (error) {
-        console.error('Error fetching ingredients:', error);
+        console.error('Error fetching menus:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    getIngredients();
+    getMenus();
   }, []);
 
-  const handleIngredientClick = (id: number) => {
-    router.push(`/ingredients/${id}`);
+  const handleMenuClick = (id: number) => {
+    router.push(`/menus/${id}`);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +50,7 @@ const IngredientsList: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  const uniqueTypes = Array.from(new Set(ingredients.map(ingredient => ingredient.type)));
+  const uniqueTypes = Array.from(new Set(menus.flatMap(menu => menu.recettes.flatMap(recette => recette.filters))));
   const filtersInput = {
     label: 'Type d\'ingrédient',
     name: 'type',
@@ -60,15 +59,18 @@ const IngredientsList: React.FC = () => {
     options: uniqueTypes,
   };
 
-  // Convert ingredients to the format expected by List
-  const listEntries = ingredients.map(ingredient => ({
-    id: ingredient.id,
-    name: ingredient.name,
-    image_path: ingredient.image_path,
-    content1: `${ingredient.quantite_vendue} ${ingredient.mesure}`,
-    content2: ingredient.type,
-    filters: selectedTypes,
-  }));
+  // Convert menus to the format expected by List
+const listEntries = menus.map(menu => {
+    const randomRecipe = menu.recettes[Math.floor(Math.random() * menu.recettes.length)];
+    return {
+        id: menu.id ?? 0, // Ensure id is a number
+        name: `Menu du ${menu.start_date} au ${menu.end_date}`,
+        image_path: randomRecipe.image_path,
+        content1: `${menu.recettes.map(recette => recette.filters).join(', ')} `,
+        content2: '',
+        filters: Array.from(new Set(menu.recettes.flatMap(recette => recette.filters))),
+    };
+});
 
 
 
@@ -82,13 +84,13 @@ const IngredientsList: React.FC = () => {
         filtersInput={filtersInput}
         selectedFilters={selectedTypes}
         handleFilterChange={handleTypeChange}
-        handleEntryClick={handleIngredientClick}
+        handleEntryClick={handleMenuClick}
         itemsPerPage={10}
         elementsDisplay='list'
-        category="Ingredients"
+        category="Menus"
         filterLabel="Filtrer par type"
       />
   );
 };
 
-export default IngredientsList;
+export default MenusList;

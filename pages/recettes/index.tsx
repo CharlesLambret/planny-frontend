@@ -5,7 +5,7 @@ import {Recette} from '@/api/recettes/apicalls';
 import IndexPageTemplate from '@/components/templates';
 import { typeMapping } from './[id]';
 
-const RecettesList: React.FC = () => {
+const IndexRecettes: React.FC = () => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -89,4 +89,4 @@ const RecettesList: React.FC = () => {
   );
 };
 
-export default RecettesList;
+export default IndexRecettes;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { TrashIcon, EllipsisHorizontalCircleIcon } from '@heroicons/react/24/outline';
-import InputComponent from '../form/input';
+import InputComponent from '../form/inputs/input';
 import { ListItemProps } from './props/ListGaleryProps';
 
 const ListItem: React.FC<ListItemProps> = ({

@@ -1,4 +1,4 @@
-import { InputComponentProps } from "@/components/commons/form/props/InputsProps";  
+import { InputComponentProps } from "@/components/commons/form/inputs/props";  
 
   export const ingredientsInputs = (ingredient: any): InputComponentProps[] => [
     {

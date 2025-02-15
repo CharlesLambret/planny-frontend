@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { fetchIngredientById, updateIngredientById, deleteIngredientById } from '../../api/ingredients/apicalls';
-import Form from '../../components/commons/form/Form';
+import Form from '../../components/commons/form/baseForm';
 import Modal from '../../components/commons/modal/Modal';
-import { ingredientsInputs } from '@/api/ingredients/inputvalues';
+import { ingredientsInputs } from '@/components/ingredients/inputvalues';
 import FormPageTemplate from '@/components/templates/formPage';
 import IngredientProps from '@/api/ingredients/props';
 

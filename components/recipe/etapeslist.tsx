@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Etape } from '@/api/recettes/apicalls';
 import { TrashIcon } from '@heroicons/react/24/outline';
-import Form from '../commons/form/Form';
+import Form from '../commons/form/baseForm';
 import { etapesInputs } from '@/api/recettes/etapes/inputvalues';
 import { List } from '@material-tailwind/react';
 import ListComponent from '../commons/list/List';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { generateImage } from '@/api/image';
-import { AIButtonProps } from './props/InputsProps';
+import { AIButtonProps } from './props';
 
 const AIButton: React.FC<AIButtonProps> = ({ prompt, handleImageGenerated, AIButtonLabel }) => {
   const [loading, setLoading] = useState(false);

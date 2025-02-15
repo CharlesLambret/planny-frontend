@@ -6,7 +6,7 @@ interface RecettesListProps {
   onRecettesChange: (selectedRecettes: Recette[]) => void;
 }
 
-const RecettesList: React.FC<RecettesListProps> = ({ onRecettesChange }) => {
+const RecettesListComponent: React.FC<RecettesListProps> = ({ onRecettesChange }) => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
   const [selectedRecettes, setSelectedRecettes] = useState<Recette[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -140,4 +140,4 @@ const RecettesList: React.FC<RecettesListProps> = ({ onRecettesChange }) => {
   );
 };
 
-export default RecettesList;
+export default RecettesListComponent;

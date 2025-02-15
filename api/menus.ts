@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Recette } from './recettes/apicalls';
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL ;
 
@@ -15,7 +16,7 @@ export const fetchMenuById = async (id: number) => {
 export const addMenu = async (menu: {
   start_date: string;
   end_date: string;
-  selected_meals: string;
+  recettes: Recette[];
 }) => {
   const response = await axios.post(`${API_URL}/menus`, menu);
   return response.data;
@@ -24,7 +25,7 @@ export const addMenu = async (menu: {
 export const updateMenuById = async (id: number, menu: {
   start_date: string;
   end_date: string;
-  selected_meals: string;
+  recettes: Recette[];
 }) => {
   const response = await axios.put(`${API_URL}/menus/${id}`, menu);
   return response.data;

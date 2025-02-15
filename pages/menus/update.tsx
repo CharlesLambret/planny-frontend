@@ -4,7 +4,7 @@ import MenuForm from '@/components/menus/form';
 const CreateMenuPage = () => {
   
   return (
-    <MenuForm mode='create'
+    <MenuForm mode='update' 
     />
   );
 };

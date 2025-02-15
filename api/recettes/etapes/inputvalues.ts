@@ -1,4 +1,4 @@
-import { InputFields } from "@/components/commons/form/input";
+import { InputFields } from "@/components/commons/form/inputs/input";
   
   export const etapesInputs = (etape: any): InputFields[] => [
     {

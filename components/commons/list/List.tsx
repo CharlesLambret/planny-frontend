@@ -1,6 +1,6 @@
 import React from 'react';
 import ListItem from './ListItem';
-import InputComponent from '../form/input';
+import InputComponent from '../form/inputs/input';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useState } from 'react';
