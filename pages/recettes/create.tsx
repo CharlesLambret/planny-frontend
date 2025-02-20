@@ -9,7 +9,11 @@ const CreateRecettePage = () => {
   
 
   return (
-    <RecetteForm mode='create'
+    <FormPageTemplate
+      title="Créer une recette"
+      category='Recettes'
+      description="Créer une nouvelle recette"
+      mode='create'
     />
   );
 };

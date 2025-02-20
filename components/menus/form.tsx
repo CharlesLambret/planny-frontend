@@ -14,43 +14,47 @@ export interface MenuFormProps {
 }
 
 const MenuForm:  React.FC<MenuFormProps> = ({ mode, menuId }) => {
-const [menu, setMenu] = React.useState<Menu>({ start_date: new Date(), end_date: new Date(), recettes: [] });
-const [selectedRecettes, setSelectedRecettes] = React.useState<Recette[]>([]);
-const [createdMenuId, setCreatedMenuId] = React.useState<number | null>(null);
-const [loading, setLoading] = useState(false);
+  const [menu, setMenu] = useState<Menu>({ start_date: new Date(), end_date: new Date(), recettes: [] });
+  const [selectedRecettes, setSelectedRecettes] = useState<Recette[]>([]);
+  const [createdMenuId, setCreatedMenuId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
 
-const handleRecettesChange = (recettes: Recette[]) => {
-  setSelectedRecettes(recettes);
-  setMenu(prev => ({ ...prev, recettes }));
-}
-
-const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-  const { name, value } = e.target;
-  setMenu(prev => ({ ...prev, [name]: value }));
-}
-
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setLoading(true);
-  try {
-    const menuData = {
-      ...menu,
-      start_date: menu.start_date.toISOString(),
-      end_date: menu.end_date.toISOString(),
-      recettes: selectedRecettes
-    };
-
-    const response = mode === 'create' 
-      ? await addMenu(menuData)
-      : await updateMenuById(menuId!, menuData);
-      
-    setCreatedMenuId(mode === 'create' ? response.id : menuId);
-  } catch (error) {
-    console.error(`Error ${mode === 'create' ? 'creating' : 'updating'} menu:`, error);
-  } finally {
-    setLoading(false);
+  const handleRecettesChange = (recettes: Recette[]) => {
+    setSelectedRecettes(recettes);
+    setMenu(prev => ({ ...prev, recettes }));
   }
-};
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    if (name === 'start_date' || name === 'end_date') {
+      setMenu(prev => ({ ...prev, [name]: new Date(value) }));
+    } else {
+      setMenu(prev => ({ ...prev, [name]: value }));
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const menuData = {
+        ...menu,
+        start_date: menu.start_date.toISOString(),
+        end_date: menu.end_date.toISOString(),
+        recettes: selectedRecettes
+      };
+
+      const response = mode === 'create' 
+        ? await addMenu(menuData)
+        : await updateMenuById(menuId!, menuData);
+        
+      setCreatedMenuId(mode === 'create' ? response.id : menuId);
+    } catch (error) {
+      console.error(`Error ${mode === 'create' ? 'creating' : 'updating'} menu:`, error);
+    } finally {
+      setLoading(false);
+    }
+  };
 const menusComponents = (
   <>
   <DatePicker 

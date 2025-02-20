@@ -10,6 +10,8 @@ interface FormPageProps {
     title : string;
     description: string;
     mode: 'create' | 'update';
+    itemId?: string;
+
 }
 
 export default function FormPageTemplate (props: FormPageProps){

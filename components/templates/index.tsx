@@ -65,7 +65,7 @@ const IndexPageTemplate: React.FC<IndexPageTemplateProps> = function ({
           className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600" 
           onClick={navigateToCreate}
         >
-          Créer une recette
+          {category === 'Ingrédients' ? 'Créer un ingrédient' : category=== 'Recettes' ? 'Créer une recette' : 'Créer un menu'}
         </button>
       </div>
       <h2 className="text-xl mb-4 font-bold text-gray-900">Liste des {category.toLowerCase()}</h2>

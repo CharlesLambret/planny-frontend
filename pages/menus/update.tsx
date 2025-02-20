@@ -1,12 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import MenuForm from '@/components/menus/form';
+import { useRouter } from 'next/router';
 
-const CreateMenuPage = () => {
+import FormPageTemplate from '@/components/templates/formPage';
+
+const UpdateMenuPage = () => {
+   const router = useRouter();
+    const [menuId, setMenuid] = useState<string | undefined>(undefined);
+    const [routerLoading, setRouterLoading] = useState(true);
   
+    useEffect(() => {
+        if (router.isReady) {
+          const { id } = router.query;
+          if (id) {
+            setMenuid(String(id));
+            console.log('Router query id:', id);
+          }
+          setRouterLoading(false); // Set loading to false once the router is ready
+        }
+      }, [router.isReady, router.query]);
+    
   return (
-    <MenuForm mode='update' 
+    <FormPageTemplate 
+        mode='update' 
+        category='Menus'
+        title='Modifier un menu'
+        description='Modifiez les informations du menu'
+        itemId={menuId}
     />
   );
 };
 
-export default CreateMenuPage;
+export default UpdateMenuPage;
