@@ -6,50 +6,38 @@ import { ingredientsInputs } from './inputvalues';
 
 export interface IngredientFormProps {
   mode: 'create' | 'update';
-  ingredientId?: string;
 }
 
-const IngredientForm: React.FC<IngredientFormProps> = ({ mode, ingredientId }) => {
-const [ingredient, setIngredient] = useState({
-        name: '',
-        quantite_vendue: '',
-        average_price: '',
-        mesure: '',
-        type: '',
-        image_path: '',
-        id: null as number | null,
-      });
-    const router = useRouter();
+const IngredientForm: React.FC<IngredientFormProps> = ({ mode }) => {
+  const router = useRouter();
+  const ingredientId = router.query.id;
+  const [ingredient, setIngredient] = useState({
+          name: '',
+          quantite_vendue: '',
+          average_price: '',
+          mesure: '',
+          type: '',
+          image_path: '',
+          id: null as string | null,
+        });
     const [loading, setLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [createdIngredientId, setCreatedIngredientId] = useState<number | null>(null);
+    const [createdIngredientId, setCreatedIngredientId] = useState<string | null>(null);
     
-    useEffect(() => {
+    
+      useEffect(() => {
         if (mode === 'update' && ingredientId) {
-          const fetchIngredient = async () => {
+          const fetchData = async () => {
             try {
-              const data = await fetchIngredientById(Number(ingredientId));
-              if (Array.isArray(data) && data.length > 0) {
-                const ingredientData = data[0];
-                setIngredient({
-                  name: ingredientData.name,
-                  quantite_vendue: ingredientData.quantite_vendue,
-                  average_price: ingredientData.average_price,
-                  mesure: ingredientData.mesure,
-                  type: ingredientData.type,
-                  image_path: ingredientData.image_path,
-                  id: ingredientData.id,
-                });
-              }
+              const fetchedIngredient = await fetchIngredientById(String(ingredientId));
+              setIngredient(fetchedIngredient);
             } catch (error) {
               console.error('Error fetching ingredient:', error);
-            } finally {
-              setLoading(false);
             }
-          };
-          fetchIngredient();
+    };
+          fetchData();
         }
-    }, [mode, ingredientId]);
+      }, [mode, ingredientId]);
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -69,7 +57,7 @@ const [ingredient, setIngredient] = useState({
     const handleDelete = async () => {
         setLoading(true);
         try {
-          await deleteIngredientById(Number(ingredientId));
+          await deleteIngredientById(String(ingredientId));
       router.push('/ingredients');
         } catch (error) {
           console.error('Error deleting ingredient:', error);
@@ -103,9 +91,9 @@ const [ingredient, setIngredient] = useState({
                 setCreatedIngredientId(response.id);
                 setIsModalOpen(true);
             } else if (mode === 'update' && ingredientId) {
-        await updateIngredientById(Number(ingredientId), newIngredient);
+        await updateIngredientById(String(ingredientId), newIngredient);
                 setIsModalOpen(true);
-                setCreatedIngredientId(Number(ingredientId)); 
+                setCreatedIngredientId(String(ingredientId)); 
             }
         } catch (error) {
             console.error(`Error ${mode === 'create' ? 'creating' : 'updating'} ingredient:`, error);

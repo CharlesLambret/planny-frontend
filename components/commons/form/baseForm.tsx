@@ -66,7 +66,7 @@ const BaseForm: React.FC<FormProps> = ({
 
   return (
     <><form onSubmit={handleSubmit} className="flex flex-row flex-wrap items-center w-full">
-      {formType !== 'menu' && (
+      {formType !== 'menu' && formType !== 'etape' && (
         <>
           {!entry.image_path && (
             <>
@@ -100,15 +100,17 @@ const BaseForm: React.FC<FormProps> = ({
           inputValue={input.inputValue}
           handleChange={handleChange}
           inputOptions={input.inputOptions}
-          divClassName="w-1/2 border-bottom-gray-200 p-2 w-1/2 mb-4" />
-      ))}
-      {additionalInputs}
-      <div className="w-full text-center mb-4">
+          divClassName={formType === 'etape' ? "w-full" : "w-1/2 border-bottom-gray-200 p-2 mb-4"} 
+        />
+            ))}
+            {additionalInputs}
+            <div className="w-full text-center mb-4">
         <MainButton
           type="submit"
           className="w-1/2 mx-auto"
           mainButtonText={mainButtonText}
-          loading={loading} />
+          loading={loading} 
+        />
         {handleDelete && deleteButtonText && (
           <button
             type="button"
@@ -119,8 +121,8 @@ const BaseForm: React.FC<FormProps> = ({
             {deleteButtonText}
           </button>
         )}
-      </div>
-    </form><Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Ingrédient créé">
+            </div>
+          </form><Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Ingrédient créé">
         <p>{modalText}</p>
         {itemIsCreated && <p>Vous pouvez consulter sa page <a href={modalLink}>ici</a></p>}
       </Modal>

@@ -5,8 +5,18 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useState } from 'react';
 import GaleryItem from './GaleryItem';
-import ListProps from './props/ListProps';
+import SearchBar from './searchbar';
+import { ListItemProps, Entry } from './props/ListGaleryProps';
+import { SearchBarProps } from './searchbar';
 
+export interface ListProps  extends ListItemProps, SearchBarProps {
+
+  entries: Entry[];
+  itemsPerPage: number;
+  elements : 'list' | 'galery';
+  listLabel?: string;
+
+} 
 
 const ListComponent: React.FC<ListProps> = ({
   entries,
@@ -26,7 +36,6 @@ const ListComponent: React.FC<ListProps> = ({
   type,
   itemsPerPage,
   elements,
-  searchBarPlaceholder
 }) => {
 
   const filteredEntries = entries.filter((entry) => {
@@ -48,33 +57,15 @@ const ListComponent: React.FC<ListProps> = ({
     <DndProvider backend={HTML5Backend}>
       <div className="w-full">
         {type === 'display' && (
-          <div className="flex w-full justify-between items-center mb-4">
-            <div className="w-2/3 m-2">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="search">
-                {listLabel}
-              </label>
-              <InputComponent
-                inputName="searchbar"
-                inputType="text"
-                inputLabel={searchBarLabel ? searchBarLabel : ''}
-                inputPlaceholder={searchBarPlaceholder}
-                inputValue={searchTerm}
-                handleChange={handleSearchChange ? (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => handleSearchChange(e as React.ChangeEvent<HTMLInputElement>) : () => {}}
-                inputClassName=" w-full p-2  border rounded"
-              />
-            </div>
-            <div className="flex w-1/3 m-2 flex-wrap">
-              <InputComponent
-                inputLabel={filterLabel || ''}
-                inputName={filtersInput?.name || ''}
-                inputType="select"
-                inputValue={selectedFilters || []}
-                inputOptions={filtersInput?.options || []} // Pass all options to a single select
-                handleChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => handleFilterChange ? handleFilterChange(e as React.ChangeEvent<HTMLInputElement>) : () => {}}
-                divClassName='w-full'
-              />
-            </div>
-            </div>
+          <SearchBar
+            searchBarLabel={searchBarLabel || ''}
+            searchTerm={searchTerm}
+            handleSearchChange={handleSearchChange}
+            filterLabel={filterLabel || ''}
+            filtersInput={filtersInput}
+            selectedFilters={selectedFilters}
+            handleFilterChange={handleFilterChange}
+            />
         )}
         <div className={`space-y-2 ${elements === 'galery' ? 'w-full flex flex-row flex-wrap items-start justify-between p-2' : ''}`}>
           {currentItems.map((entry, index) => (

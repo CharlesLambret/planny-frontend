@@ -1,15 +1,15 @@
 import React from 'react';
 import DatePicker from '../commons/form/inputs/datepicker';
-import RecettesList from '@/components/recipe/recetteslist';
+import RecettesList from '@/components/recettes/recetteslist';
 import { Menu } from '@/api/menus/apicalls';
 import BaseForm from '../commons/form/baseForm';
 import { Recette } from '@/api/recettes/apicalls';
 import { useState } from 'react';
 import { addMenu, updateMenuById } from '@/api/menus';
-import RecettesListComponent from '@/components/recipe/recetteslist';
+import RecettesListComponent from '@/components/recettes/recetteslist';
 
 export interface MenuFormProps {
-  menuId?: number;
+  menuId?: string;
   mode: 'create' | 'update';
 }
 
@@ -65,6 +65,7 @@ const menusComponents = (
    <div className="w-full border-t-2 border-gray-300 my-3">
      <h2 className="text-lg font-bold my-3 text-bold">Sélectionnez des recettes à ajouter au menu</h2>
       <RecettesListComponent
+        type='form'
         onRecettesChange={handleRecettesChange}
        />
        </div>

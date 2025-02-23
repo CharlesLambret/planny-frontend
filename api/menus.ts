@@ -8,7 +8,7 @@ export const fetchMenus = async () => {
   return response.data;
 };
 
-export const fetchMenuById = async (id: number) => {
+export const fetchMenuById = async (id: string) => {
   const response = await axios.get(`${API_URL}/menus/${id}`);
   return response.data;
 };
@@ -22,7 +22,7 @@ export const addMenu = async (menu: {
   return response.data;
 };
 
-export const updateMenuById = async (id: number, menu: {
+export const updateMenuById = async (id: string, menu: {
   start_date: string;
   end_date: string;
   recettes: Recette[];
@@ -31,7 +31,7 @@ export const updateMenuById = async (id: number, menu: {
   return response.data;
 };
 
-export const deleteMenuById = async (id: number) => {
+export const deleteMenuById = async (id: string) => {
   const response = await axios.delete(`${API_URL}/menus/${id}`);
   return response.data;
 };

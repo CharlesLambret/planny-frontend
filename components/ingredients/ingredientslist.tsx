@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import List from '../commons/list/List';
 import { fetchIngredients, Ingredient } from '@/api/ingredients/apicalls';
+import { useRouter } from 'next/router';
 
 interface IngredientsListProps {
-  onIngredientsChange: (selectedIngredients: Ingredient[]) => void;
+  onIngredientsChange?: (selectedIngredients: Ingredient[]) => void;
+  type: 'display' | 'form';
+  loadedIngredients?: Ingredient[];
 }
 
-const IngredientsList: React.FC<IngredientsListProps> = ({ onIngredientsChange }) => {
+const IngredientsList: React.FC<IngredientsListProps> = ({ onIngredientsChange, type, loadedIngredients }) => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>([]);
+  const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>(loadedIngredients || []);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
@@ -22,9 +25,16 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ onIngredientsChange }
   }, []);
 
   useEffect(() => {
-
-    onIngredientsChange(selectedIngredients);
+    if (onIngredientsChange) {
+      onIngredientsChange(selectedIngredients);
+    }
   }, [selectedIngredients, onIngredientsChange]);
+
+  useEffect(() => {
+    if (loadedIngredients && loadedIngredients.length > 0) {
+      setSelectedIngredients(loadedIngredients);
+    }
+  }, [loadedIngredients]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -37,24 +47,33 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ onIngredientsChange }
     );
   };
 
-  const handleEntryClick = (id: number) => {
-    const ingredient = ingredients.find((ing) => ing.id === id);
-    if (ingredient && !selectedIngredients.some((ing) => ing.id === id)) {
-      setSelectedIngredients((prevSelected) => [
-        ...prevSelected,
-        { ...ingredient, quantity: parseInt(ingredient.quantite_vendue, 10) },
-      ]);
-    }
+  const router = useRouter();
+  let handleEntryClick;
+
+  if (type === 'form') {
+    handleEntryClick = (id: string) => {
+      const ingredient = ingredients.find((ing) => ing._id === id);
+      if (ingredient && !selectedIngredients.some((ing) => ing._id === id)) {
+        setSelectedIngredients((prevSelected) => [
+          ...prevSelected,
+          { ...ingredient, quantity: parseInt(ingredient.quantite_vendue, 10) },
+        ]);
+      }
+    };
+  } else {
+    handleEntryClick = (id: string) => {
+      router.push(`/ingredients/${id}`);
+    };
+  }
+
+  const handleRemoveClick = (id: string) => {
+    setSelectedIngredients((prevSelected) => prevSelected.filter((ingredient) => ingredient._id !== id));
   };
 
-  const handleRemoveClick = (id: number) => {
-    setSelectedIngredients((prevSelected) => prevSelected.filter((ingredient) => ingredient.id !== id));
-  };
-
-  const handleQuantityChange = (id: number, quantity: number) => {
+  const handleQuantityChange = (id: string, quantity: number) => {
     setSelectedIngredients((prevSelected) =>
       prevSelected.map((ingredient) =>
-        ingredient.id === id ? { ...ingredient, quantity } : ingredient
+        ingredient._id === id ? { ...ingredient, quantity } : ingredient
       )
     );
   };
@@ -77,6 +96,11 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ onIngredientsChange }
     options: Array.from(new Set(ingredients.map((ing) => ing.type))),
   };
 
+  // Filtrer les ingrédients de la liste de base pour exclure ceux qui sont déjà sélectionnés
+  const filteredIngredients = ingredients.filter(
+    (ingredient) => !selectedIngredients.some((selected) => selected._id === ingredient._id)
+  );
+
   return (
     <div className="p-4 w-full mx-auto rounded-lg">
       {selectedIngredients.length > 0 && (
@@ -85,7 +109,7 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ onIngredientsChange }
           <div className="space-y-2 mb-4">
             <List
               entries={selectedIngredients.map((ing, index) => ({
-                id: ing.id,
+                id: ing._id,
                 name: ing.name,
                 image_path: ing.image_path,
                 content1: `${ing.quantite_vendue} ${ing.mesure} pour ${ing.average_price} € `,
@@ -104,18 +128,17 @@ const IngredientsList: React.FC<IngredientsListProps> = ({ onIngredientsChange }
               handleTrashClick={handleRemoveClick}
               moveListItem={moveListItem}
               handleQuantityChange={handleQuantityChange}
-              type="form"
+              type={type}
               itemsPerPage={5}
               elements="list"
-
             />
           </div>
         </>
       )}
-      
+
       <List
-        entries={ingredients.map((ing) => ({
-          id: ing.id,
+        entries={filteredIngredients.map((ing) => ({
+          id: ing._id,
           name: ing.name,
           image_path: ing.image_path,
           content1: ing.quantite_vendue,

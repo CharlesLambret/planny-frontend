@@ -1,7 +1,7 @@
 import PageIndication from "../commons/misc/pageindication";
 import Form from "../commons/form/baseForm";
 import Modal from "../commons/modal/Modal";
-import RecetteForm from "../recipe/recetteForm";
+import RecetteForm from "../recettes/recetteForm";
 import MenuForm from "../menus/form";
 import IngredientForm from "../ingredients/form";
 

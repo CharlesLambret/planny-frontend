@@ -12,7 +12,7 @@ import IconPoele from '@/components/svg/poele';
 import IconVapeur from '@/components/svg/vapeur';
 import IconMicroOndes from '@/components/svg/microonde';
 import { ClockIcon } from '@heroicons/react/24/outline';
-import { IconItem } from '@/components/recipe/IconItem';
+import { IconItem } from '@/components/recettes/IconItem';
 import IconPlat from '@/components/svg/plat';
 import IconEntree from '@/components/svg/entree';
 import IconDessert from '@/components/svg/dessert';
@@ -21,7 +21,7 @@ import IconAperitif from '@/components/svg/aperitif';
 import IconGouter from '@/components/svg/gouter';
 import IconMuffin from '@/components/svg/muffin';
 import { JSX } from 'react';
-import RecipeType from '@/components/recipe/type';
+import RecipeType from '@/components/recettes/type';
 import MainButton from '@/components/commons/misc/mainbutton';
 
 const className= 'w-1/4'
@@ -59,7 +59,7 @@ const RecetteDetail = () => {
   useEffect(() => {
     if (id) {
       console.log('Fetching recette with id:', id);
-      fetchRecetteById(Number(id))
+      fetchRecetteById(String(id))
         .then((data) => {
           console.log('Recette data:', data);
           setRecette({
@@ -85,14 +85,14 @@ const RecetteDetail = () => {
   }
 
   const handleEditClick = () => {
-    router.push(`/recettes/update?id=${recette.id}`);
+    router.push(`/recettes/update?id=${recette._id}`);
   };
 
   const handleFilterSelection = (filter: FilterType) => {
     console.log('Filter selected:', filter);
   };
 
-
+console.log('URL image :', `${process.env.NEXT_PUBLIC_BASE_API_URL}/uploads/${recette.image_path}`)
 
   return (
 
@@ -149,7 +149,7 @@ const RecetteDetail = () => {
         <ul className="list-disc list-inside">
         <div className="flex  p-2 flew-row flex-wrap w-full justify-start space-between">
                 {recette.quantitesIngredients.map((ingredient) => (
-                <li key={ingredient.id} className="flex items-center w-1/2 p-4 space-x-4">
+                <li key={ingredient._id} className="flex items-center w-1/2 p-4 space-x-4">
                   <img className="w-1/6 rounded-xl" src={`${process.env.NEXT_PUBLIC_BASE_API_URL}/uploads/${ingredient.image_path}`} alt={ingredient.name} />
                   <p className='text-sm'>{ingredient.name} - {ingredient.quantity} {ingredient.mesure}</p>
                 </li>
@@ -160,13 +160,13 @@ const RecetteDetail = () => {
       <div className="flex flex-col p-3">
         <h2 className="text-2xl font-bold">Etapes</h2>
                 {recette.etapes.map((etape) => (
-                <div key={etape.ordre} className="flex flex-row items-center justify-start w-full p-4 space-x-4">
+                <div key={etape.order} className="flex flex-row items-center justify-start w-full p-4 space-x-4">
                     <div className="w-1/6 p-5 bg-gray-300 text-xl font-bold flex items-center justify-center aspect-square">
-                    {etape.ordre}
+                    {etape.order}
                   </div>
                   <div className="w-5/6">
-                    <h3 className="text-lg font-bold">{etape['nom-section']}</h3>
-                    <p>{etape.contenu}</p>
+                    <h3 className="text-lg font-bold">{etape.name}</h3>
+                    <p>{etape.content}</p>
                   </div>
                 </div>
                 ))}

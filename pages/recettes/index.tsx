@@ -27,7 +27,7 @@ const IndexRecettes: React.FC = () => {
     getRecettes();
   }, []);
 
-  const handleRecetteClick = (id: number) => {
+  const handleRecetteClick = (id: string) => {
     router.push(`/recettes/${id}`);
   };
 

@@ -1,4 +1,4 @@
-import RecettesList from "@/components/recipe/recetteslist";
+import RecettesList from "@/components/recettes/recetteslist";
 import { Recette } from "@/api/recettes/apicalls";
 export default function Index(){
     const handleRecettesChange = (selectedRecettes: Recette[]) => {

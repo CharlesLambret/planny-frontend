@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import RecetteForm from '@/components/recipe/recetteForm';
+import RecetteForm from '@/components/recettes/recetteForm';
 
 const UpdateRecetteForm = () => {
  

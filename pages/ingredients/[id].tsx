@@ -12,13 +12,9 @@ const IngredientDetail: React.FC = () => {
     if (id) {
       const fetchIngredient = async () => {
         console.log('Fetching ingredient with id:', id);
-        const data = await fetchIngredientById(Number(id));
+        const data = await fetchIngredientById(String(id));
         console.log('Fetched ingredient data:', data);
-        if (Array.isArray(data) && data.length > 0) {
-          setIngredient(data[0]);
-        } else {
-          setIngredient(null);
-        }
+        setIngredient(data);
       };
       fetchIngredient();
     }
@@ -31,7 +27,7 @@ const IngredientDetail: React.FC = () => {
   console.log('Rendering ingredient:', ingredient);
 
   const handleEditClick = () => {
-    router.push(`/ingredients/update?id=${ingredient.id}`);
+    router.push(`/ingredients/update?id=${ingredient._id}`);
   };
 
   return (

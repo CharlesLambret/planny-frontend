@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { recettesInputs } from '@/api/recettes/inputvalues';
 import FormPageTemplate from '@/components/templates/formPage';
 import RecetteProps from '@/api/recettes/props';
-import RecetteForm from '@/components/recipe/recetteForm';
+import RecetteForm from '@/components/recettes/recetteForm';
 
 const CreateRecettePage = () => {
   

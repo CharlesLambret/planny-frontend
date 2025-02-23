@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 export interface Ingredient {
-  id: number;
+  _id: string;
   name: string;
   quantite_vendue: string;
   average_price: string;
@@ -18,7 +18,7 @@ export const fetchIngredients = async () => {
   return response.data;
 };
 
-export const fetchIngredientById = async (id: number) => {
+export const fetchIngredientById = async (id: string) => {
   const response = await axios.get(`${API_URL}/ingredients/${id}`);
   return response.data;
 };
@@ -35,7 +35,7 @@ export const addIngredient = async (ingredient: {
   return response.data;
 };
 
-export const updateIngredientById = async (id: number, ingredient: {
+export const updateIngredientById = async (id: string, ingredient: {
   name: string;
   average_price: number;
   quantite_vendue: number;
@@ -46,7 +46,7 @@ export const updateIngredientById = async (id: number, ingredient: {
   return response.data;
 };
 
-export const deleteIngredientById = async (id: number) => {
+export const deleteIngredientById = async (id: string) => {
   const response = await axios.delete(`${API_URL}/ingredients/${id}`);
   return response.data;
 };

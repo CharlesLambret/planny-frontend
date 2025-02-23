@@ -24,16 +24,15 @@ export interface Recette {
   image_path: string;
   etapes: Etape[];
   price?: number;
-  id?: number;
+  _id?: string;
   quantitesIngredients: Ingredient[];
 
 }
 
 export interface Etape {
-  'nom-section': string, 
-  contenu: string, 
-  ordre : number
-  id? : number,
+  name: string, 
+  content: string, 
+  order : number
 }
 
 export const fetchRecettes = async () => {
@@ -42,7 +41,7 @@ export const fetchRecettes = async () => {
   return response.data;
 };
 
-export const fetchRecetteById = async (id: number) => {
+export const fetchRecetteById = async (id: string) => {
   let recetteResponse = await axios.get(`${API_URL}/recettes/${id}`);
   return recetteResponse.data;
 };
@@ -52,12 +51,12 @@ export const addRecette = async (recette: Recette) => {
   return response.data;
 };
 
-export const updateRecetteById = async (id: number, recette: Recette) => {
+export const updateRecetteById = async (id: string, recette: Recette) => {
   const response = await axios.put(`${API_URL}/recettes/${id}`, recette);
   return response.data;
 };
 
-export const deleteRecetteById = async (id: number) => {
+export const deleteRecetteById = async (id: string) => {
   const response = await axios.delete(`${API_URL}/recettes/${id}`);
   return response.data;
 };
