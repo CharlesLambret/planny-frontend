@@ -12,7 +12,7 @@ import { PhotoInputProps, AIButtonProps, InputComponentProps } from './inputs/pr
   // FormProps
 
   formType: 'ingredient' | 'recette' | 'menu' | 'user' | 'etape' ;
-  subType : 'create' | 'update'
+  subType : 'create' | 'update' | 'user';
   entry: any;
   inputs: InputComponentProps[];
   loading: boolean;
@@ -66,7 +66,7 @@ const BaseForm: React.FC<FormProps> = ({
 
   return (
     <><form onSubmit={handleSubmit} className="flex flex-row flex-wrap items-center w-full">
-      {formType !== 'menu' && formType !== 'etape' && (
+      {formType !== 'menu' && formType !== 'etape' && formType !== 'user' && (
         <>
           {!entry.image_path && (
             <>

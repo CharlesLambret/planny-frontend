@@ -27,7 +27,14 @@ import { InputComponentProps } from "@/components/commons/form/inputs/props";
         inputValue: recette.type,
         inputOptions : ['Petit-déjeuner','Entrée', 'Repas','Dessert','Goûter','Apéritif','Boisson','Autre']
 
-    }
+    },
+    {
+      inputLabel: 'Nombre de personnes',
+      inputName: 'nbpersonnes',
+      inputType: 'text',
+      inputValue: recette.nbpersonnes,
+    },
+ 
   ];
 
   

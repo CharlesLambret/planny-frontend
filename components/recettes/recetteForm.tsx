@@ -7,7 +7,7 @@ import { Ingredient } from '@/api/ingredients/apicalls';
 import { useEffect, useState } from 'react';
 import { Recette } from '@/api/recettes/apicalls';
 import BaseForm from '../commons/form/baseForm';
-import { recettesInputs } from '@/api/recettes/inputvalues';
+import { recettesInputs } from '@/components/recettes/inputvalues';
 import { useRouter } from 'next/router';
 
 export interface RecetteFormProps {
@@ -23,7 +23,8 @@ const RecetteForm: React.FC<RecetteFormProps> = ({ mode }) => {
     filters: [],
     image_path: '',
     quantitesIngredients: [],
-    etapes: []
+    etapes: [],
+    nbpersonnes: 0,
   });
   const router = useRouter();
   const recetteId = router.query.id;

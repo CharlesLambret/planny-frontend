@@ -18,7 +18,7 @@ const Sidebar: React.FC = () => {
       url: '/',
     },
     {
-      name: 'Menus',
+      name: 'Vos menus',
       url: '/menus',
     },
     {
@@ -29,8 +29,16 @@ const Sidebar: React.FC = () => {
       name: 'Ingrédients',
       url: '/ingredients',
       sublinks: [
-        
+       
       ],
+    },
+    {
+      name: 'Connexion',
+      url: '/auth/login',
+    },
+    {
+      name: 'Inscription',
+      url: '/auth/register',
     },
   ];
 
