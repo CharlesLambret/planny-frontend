@@ -8,10 +8,23 @@ export interface Menu {
   end_date: Date;
   recettes: Recette[];
   _id?: String;
-
+  userID: String;
+  types_repas: Array<keyof typeof TypesRepas>,
+  image_path?: string;
+  price?: number;
+  nb_personnes: number;
 }
 
-
+export const TypesRepas = {
+  PETIT_DEJEUNER: 'Petit-déjeuner',
+  ENTREE: 'Entrée',
+  REPAS: 'Repas',
+  DESSERT: 'Dessert',
+  GOUTER: 'Goûter',
+  APERITIF: 'Apéritif',
+  BOISSON: 'Boisson',
+  AUTRE: 'Autre'
+}
 export const fetchMenus = async () => {
   const response = await axios.get(`${API_URL}/menus`);
   console.log('requête effectuée sur l\'url :' + `${API_URL}/menus`);

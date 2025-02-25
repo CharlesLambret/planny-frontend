@@ -1,14 +1,17 @@
 import BaseForm from "../commons/form/baseForm";
-import { Login, Register, updateUserById, User } from "@/api/auth/apicalls";
+import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
 import { userInputs } from "./userInputs";
 import { loginInputs } from "./loginInputs";
+import { useRouter } from "next/router";
+import { User } from "@/api/auth/apicalls";
 
 export interface UserFormPros {
     mode: 'register' | 'update' | 'login';
     }
  
 const UserForm : React.FC<UserFormPros> = ({ mode }) => {
+  const { login, register, updateUser } = useAuth();
     const [user, setUser] = useState<User>({
         _id: '',
         nom: '',
@@ -21,13 +24,20 @@ const UserForm : React.FC<UserFormPros> = ({ mode }) => {
         friends: []
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [createdUserId, setCreatedUserId] = useState<number | null>(null);
+    const [createdUserId, setCreatedUserId] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
+
     let inputs;
     if (mode === 'login') {
         inputs = loginInputs(user);
     } else{
         inputs = userInputs(user);
+    }
+
+    const handleLogin = async (userData : User) => {
+      await login (userData.email, userData.password);
+      router.push('/menus');
     }
     useEffect(() => {
         if (mode === 'update') {
@@ -47,11 +57,11 @@ const UserForm : React.FC<UserFormPros> = ({ mode }) => {
           };
     
           const response = mode === 'register' 
-            ? await Register(userData.nom, userData.prenom, userData.email, userData.password)
-            : mode === 'login' ? await Login(userData.email, userData.password)
-            : await updateUserById(userData._id, userData);
+            ? await register(userData.nom, userData.prenom, userData.email, userData.password)
+            : mode === 'login' ? (await handleLogin(userData), { id: user._id })
+            : await updateUser(userData._id, userData);
 
-          setCreatedUserId(mode === 'update' ? user._id : response.id);
+          setCreatedUserId(mode === 'update' ? user._id : response ? response.id : null);
           setIsModalOpen(true);
         } catch (error) {
           console.error(`Error ${mode === 'register' ? 'creating' : mode ==='login' ? 'login' : 'updating'} user:`, error);

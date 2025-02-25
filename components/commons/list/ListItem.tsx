@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { TrashIcon, EllipsisHorizontalCircleIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, EllipsisHorizontalCircleIcon, HeartIcon } from '@heroicons/react/24/outline';
 import InputComponent from '../form/inputs/input';
 import { ListItemProps } from './props/ListGaleryProps';
 
@@ -90,34 +90,40 @@ const ListItem: React.FC<ListItemProps> = ({
             </div>
             <span className="text-gray-700 text-sm">{entry ? entry.content2 : ''}</span>
           </div>
-          {type === 'form' && (
-            <InputComponent
-              inputName="quantity"
-              inputLabel="Quantité"
-              inputType="number"
-              inputValue={entry ? entry.quantity?.toString() || '1' : '1'}
-              handleChange={handleQuantityInputChange}
-              divClassName="w-1/3 mx-4"
-              inputClassName="w-full"
-            />
-          )}
-        </div>
-        {type === 'form' && (
-          <div className="flex flex-row justify-end items-center">
-            {handleEllipsisHold && (
-              <EllipsisHorizontalCircleIcon
-                className="w-6 h-6 text-gray-500 hover:text-gray-600 cursor-pointer"
-                onMouseDown={() => entry && entry.id !== undefined && handleEllipsisHold(entry.id)}
-              />
-            )}
-            {handleTrashClick && (
-              <TrashIcon
-                className="w-6 h-6 text-red-500 cursor-pointer hover:text-red-600"
-                onClick={() => entry && entry.id !== undefined && handleTrashClick(entry.id)}
-              />
-            )}
-          </div>
+        {type !== 'recette' && type !== 'recetteactive' && type === 'form' && (
+          <InputComponent
+            inputName="quantity"
+            inputLabel="Quantité"
+            inputType="number"
+            inputValue={entry ? entry.quantity?.toString() || '1' : '1'}
+            handleChange={handleQuantityInputChange}
+            divClassName="w-1/3 mx-4"
+            inputClassName="w-full"
+          />
         )}
+        </div>
+       
+          <div className="flex flex-row justify-end items-center">
+          {(type === 'form' || type === 'recetteactive') && (
+            <>
+              {handleEllipsisHold && (
+                <EllipsisHorizontalCircleIcon
+                  className="w-6 h-6 text-gray-500 hover:text-gray-600 cursor-pointer"
+                  onMouseDown={() => entry && entry.id !== undefined && handleEllipsisHold(entry.id)}
+                />
+              )}
+              {handleTrashClick && (
+                <TrashIcon
+                  className="w-6 h-6 text-red-500 cursor-pointer hover:text-red-600"
+                  onClick={() => entry && entry.id !== undefined && handleTrashClick(entry.id)}
+                />
+              )}
+            </>
+          )}
+          {(type !== 'form' && type !== 'recetteactive') && (
+            <HeartIcon className="w-6 h-6 text-red-500 cursor-pointer hover:fill-red-600 hover:shadow-sm hover:shadow-red-200" />
+          )}
+          </div>
       </div>
     </div>
   );

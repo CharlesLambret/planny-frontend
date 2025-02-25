@@ -1,8 +1,10 @@
 import React from 'react';
 import MainButton from '../misc/mainbutton';
 import { ListItemProps } from './props/ListGaleryProps';
+import { HeartIcon } from '@heroicons/react/24/outline';
 
  const GaleryItem: React.FC<ListItemProps> = ({ entry, handleEntryClick}) => {
+  if (!entry) return null;
   return (
     <div className="w-2/5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer">
       <a href="#">
@@ -18,9 +20,10 @@ import { ListItemProps } from './props/ListGaleryProps';
         loading={false}
         mainButtonText=" Voir la recette"
         type='button'
-        className="w-1/2 mx-auto "
-        onClick={() => handleEntryClick(entry.id)}
+        className=" mx-auto "
+        onClick={() => handleEntryClick && handleEntryClick(entry.id)}
         />
+        <HeartIcon className="w-6 h-6 text-red-500 cursor-pointer hover:fill-red-600 hover:shadow-sm hover:shadow-red-200 mt-2" />
       </div>
     </div>
   );

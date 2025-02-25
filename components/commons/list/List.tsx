@@ -84,7 +84,7 @@ const ListComponent: React.FC<ListProps> = ({
             <GaleryItem 
               key={entry.id} 
               entry={entry} 
-              type='autre'
+              type='display'
               handleEntryClick={handleEntryClick}
             />
           ))}

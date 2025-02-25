@@ -6,11 +6,11 @@ import { Recette } from "../recettes/apicalls";
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 export interface User {
-    _id: string;
-    nom: string;
-    prenom: string;
-    email: string;
-    password : string;
+    _id: String;
+    nom: String;
+    prenom: String;
+    email: String;
+    password : String;
     ingredientsFavoris: Ingredient[];
     recettesFavorites: Recette[];
     menus: Menu[];

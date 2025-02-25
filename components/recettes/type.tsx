@@ -20,19 +20,26 @@ const typeMapping: { [key: string]: JSX.Element } = {
 };
 
 interface RecipeTypeProps {
-    type: string;
+  type: string;
+  onClick: () => void;
+  isSelected: boolean;
 }
 
-const RecipeType: React.FC<RecipeTypeProps> = ({ type }) => {
-    const typeName = type.toLowerCase();
-    const IconComponent = typeMapping[typeName] ;
-    console.log("type de la recete", typeName);
-    return (
-        <div className="flex m-4 flex-col justify-center items-center text-center text-black-400  font-sm w-1/5  border rounded-md border-gray-200">
-            {IconComponent}
-            <span className="ml-2 text-center">{type}</span>
-        </div>
-    );
+const RecipeType: React.FC<RecipeTypeProps> = ({ type, onClick, isSelected }) => {
+  const typeName = type.toLowerCase();
+  const IconComponent = typeMapping[typeName];
+  console.log("type de la recette", typeName);
+  return (
+    <div
+      className={`flex m-4 flex-col justify-center p-2  hover:border-orange-500 cursor-pointer hover:text-orange-500 items-center text-center font-sm w-1/5 border rounded-md cursor-pointer ${
+        isSelected ? "border-orange-400 text-orange-400" : "border-gray-200 text-black-400"
+      }`}
+      onClick={onClick}
+    >
+      {IconComponent}
+      <span className="ml-2 text-center">{type}</span>
+    </div>
+  );
 };
 
 export default RecipeType;

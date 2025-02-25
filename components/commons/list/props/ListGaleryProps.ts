@@ -3,7 +3,7 @@ import { JSX } from "react";
 export interface ListItemProps {
     entry?: Entry;
     handleEntryClick?: (id: string) => void;
-    type: 'display' | 'form' | 'etape' | 'autre';
+    type: 'display' | 'form' | 'etape' | 'recette' |'recetteactive';
     handleTrashClick?: (id: string) => void;
     handleEllipsisHold?: (id: string) => void;
     moveListItem?: (dragIndex: number, hoverIndex: number) => void;
