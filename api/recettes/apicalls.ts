@@ -27,6 +27,7 @@ export interface Recette {
   _id?: string;
   quantitesIngredients: Ingredient[];
   nbpersonnes: number;
+  userID?: string;
 }
 
 export interface Etape {

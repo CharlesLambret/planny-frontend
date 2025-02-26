@@ -56,7 +56,7 @@ const ListComponent: React.FC<ListProps> = ({
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="w-full">
-        {type === 'display' && (
+        {type === 'display' && elements !== 'galery' && (
           <SearchBar
             searchBarLabel={searchBarLabel || ''}
             searchTerm={searchTerm}
@@ -67,7 +67,7 @@ const ListComponent: React.FC<ListProps> = ({
             handleFilterChange={handleFilterChange}
             />
         )}
-        <div className={`space-y-2 ${elements === 'galery' ? 'w-full flex flex-row flex-wrap items-start justify-between p-2' : ''}`}>
+        <div className={`space-y-2 ${elements === 'galery' ? 'w-full flex flex-row overflow-x-auto whitespace-nowrap items-start justify-between gap-5 p-2' : ''}`}>
           {currentItems.map((entry, index) => (
             elements === 'list' ?
             <ListItem 
@@ -89,17 +89,21 @@ const ListComponent: React.FC<ListProps> = ({
             />
           ))}
         </div>
-        <div className="flex justify-center mt-4">
-        {Array.from({ length: Math.ceil(filteredEntries.length / itemsPerPage) }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => paginate(index + 1)}
-            className={`px-4 py-2 mx-1 border rounded ${currentPage === index + 1 ? 'bg-orange-200 hover:bg-orange-300 text-white' : 'bg-white text-orange-300'}`}
-          >
-            {index + 1}
-          </button>
-        ))}
-      </div>
+        {elements !== 'galery' && (
+           <div className="flex justify-center mt-4">
+           {Array.from({ length: Math.ceil(filteredEntries.length / itemsPerPage) }, (_, index) => (
+             <button
+               key={index}
+               onClick={() => paginate(index + 1)}
+               className={`px-4 py-2 mx-1 border rounded ${currentPage === index + 1 ? 'bg-orange-200 hover:bg-orange-300 text-white' : 'bg-white text-orange-300'}`}
+             >
+               {index + 1}
+             </button>
+           ))}
+         </div>
+        )
+        }
+       
       </div>
     </DndProvider>
   );

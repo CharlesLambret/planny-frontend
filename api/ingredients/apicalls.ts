@@ -12,6 +12,7 @@ export interface Ingredient {
   type: string;
   image_link: string;
   quantity?: number;
+  userID?: string;
 }
 export const fetchIngredients = async () => {
   const response = await axios.get(`${API_URL}/ingredients`);

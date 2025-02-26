@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Recette } from '../recettes/apicalls';
+import { User } from '../auth/apicalls';
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
@@ -7,11 +8,11 @@ export interface Menu {
   start_date: Date;
   end_date: Date;
   recettes: Recette[];
-  _id?: String;
+  _id: String;
   userID: String;
   types_repas: Array<keyof typeof TypesRepas>,
-  image_path?: string;
-  price?: number;
+  image_path: string;
+  price: number;
   nb_personnes: number;
 }
 
@@ -25,8 +26,10 @@ export const TypesRepas = {
   BOISSON: 'Boisson',
   AUTRE: 'Autre'
 }
-export const fetchMenus = async () => {
-  const response = await axios.get(`${API_URL}/menus`);
+
+
+export const fetchUserMenus = async (userID : string) => {
+  const response = await axios.get(`${API_URL}/menus/all/${userID}`);
   console.log('requête effectuée sur l\'url :' + `${API_URL}/menus`);
   return response.data;
 };

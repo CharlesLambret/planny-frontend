@@ -1,56 +1,48 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import List from '../commons/list/List';
-import { fetchRecettes, Recette } from '@/api/recettes/apicalls';
+import { fetchRecettes, Recette, FilterType } from '@/api/recettes/apicalls';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/context/authContext';
 
 interface RecettesListProps {
   onRecettesChange?: (selectedRecettes: Recette[]) => void;
   type: 'display' | 'form';
+  displayType?: 'users' | 'filtered' | 'all';
   selectedTypes?: string[];
 }
 
-const RecettesListComponent: React.FC<RecettesListProps> = ({ onRecettesChange, type, selectedTypes }) => {
+const RecettesListComponent: React.FC<RecettesListProps> = ({ onRecettesChange, type, selectedTypes, displayType }) => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
   const [selectedRecettes, setSelectedRecettes] = useState<Recette[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-
+  const { user } = useAuth();
   let elements: 'list' | 'galery';
   if (type === 'display') {
     elements = 'galery';
   } else {
     elements = 'list';
   }
+
   useEffect(() => {
     const getRecettes = async () => {
-      const data = await fetchRecettes();
+      let data = await fetchRecettes();
+      if (displayType === 'users') {
+        data = data.filter((recette: Recette) => recette.userID === user?._id);
+      } else if (displayType === 'filtered' && selectedTypes) {
+        data = data.filter((recette: Recette) => selectedTypes.includes(recette.type));
+      }
       setRecettes(data);
     };
 
     getRecettes();
-  }, []);
+  }, [displayType, selectedTypes, user]);
 
   useEffect(() => {
     if (onRecettesChange) {
       onRecettesChange(selectedRecettes);
     }
   }, [selectedRecettes, onRecettesChange]);
-
-  useEffect(() => {
-    if (selectedTypes && selectedTypes.length > 0) {
-      const filteredRecettes = recettes.filter((recette) =>
-        selectedTypes.includes(recette.type)
-      );
-      setRecettes(filteredRecettes);
-    } else {
-      const getRecettes = async () => {
-        const data = await fetchRecettes();
-        setRecettes(data);
-      };
-
-      getRecettes();
-    }
-  }, [selectedTypes]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);

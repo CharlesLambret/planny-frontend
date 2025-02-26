@@ -9,6 +9,7 @@ export interface ListItemProps {
     moveListItem?: (dragIndex: number, hoverIndex: number) => void;
     handleQuantityChange?: (id: string, quantity: number) => void;
     index?: number;
+    buttonText?: string;
 }
 
 export interface Entry {

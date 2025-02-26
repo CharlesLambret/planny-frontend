@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Logo from '@/components/svg/logo';
 import { useAuth } from '@/context/authContext';
 import { Logout } from '@/api/auth/apicalls';
@@ -17,7 +18,8 @@ interface Link {
 }
 
 const Sidebar: React.FC = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const router = useRouter();
 
   const links: Link[] = [
     {
@@ -59,11 +61,18 @@ const Sidebar: React.FC = () => {
     {
       name: 'Déconnexion',
       url: '/',
-      onClick: () => { Logout(); },
+      onClick: () => { logout(); },
       auth: true,
       hideafterLogin: false,
     }
   ];
+
+  useEffect(() => {
+    const authRequiredLinks = links.filter(link => link.auth).map(link => link.url);
+    if (!user && authRequiredLinks.includes(router.pathname)) {
+      router.push('/');
+    }
+  }, [user, router.pathname]);
 
   const filteredLinks = links.filter(link => {
     if (user) {
@@ -88,17 +97,6 @@ const Sidebar: React.FC = () => {
               <Link href={link.url} className="text-orange-400/75 hover:text-orange-400/100 text-gray-700 p-1 rounded hover:drop-shadow-sm hover:drop-shadow-orange-100/50">
                 {link.name}
               </Link>
-            )}
-            {link.sublinks && (
-              <ul className="ml-4 mt-2 space-y-1">
-                {link.sublinks.map((sublink) => (
-                  <li key={sublink.name} className="text-center p-1 hover:bg-white-500/50 rounded">
-                    <Link href={sublink.url} className="text-sm hover:shadow-sm hover:shadow-orange-100/50 hover:text-orange text-gray-700 p-1 rounded">
-                      {sublink.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
             )}
           </li>
         ))}

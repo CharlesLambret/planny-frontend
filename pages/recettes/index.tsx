@@ -64,27 +64,7 @@ const IndexRecettes: React.FC = () => {
 
 
   return (
-      <IndexPageTemplate
-        entries={recettes.filter(recette => recette.id !== undefined).map(recette => ({
-          id: recette.id!,
-          name: recette.name,
-          image_path: recette.image_path,
-          content1: `${typeMapping[recette.type] || ''} | ${recette.resume}`,
-          content2: `${recette.preparation_time} min`,
-          filters: recette.filters
-        }))}
-        listLabel='Rechercher une recette'
-        searchBarLabel="Tarte à la myrtille..."
-        searchTerm={searchTerm}
-        handleSearchChange={handleSearchChange}
-        filtersInput={filtersInput}
-        selectedFilters={selectedFilters}
-        handleFilterChange={handleTypeChange}
-        handleEntryClick={handleRecetteClick}
-        elementsDisplay='galery'
-        itemsPerPage={10}
-        filterLabel='Type de recette'
-        category="Recettes"
+      <IndexPageTemplate category='Recettes'
       />
   );
 };

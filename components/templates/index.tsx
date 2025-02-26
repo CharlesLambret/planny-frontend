@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import PageIndication from '@/components/commons/misc/pageindication';
 import IngredientsList from '../ingredients/ingredientslist';
 import RecettesListComponent from '../recettes/recetteslist';
+import MenusListComponent from '../menus/menuList';
 
 interface IndexPageTemplateProps {
   category: 'Menus' | 'Ingrédients' | 'Recettes';
@@ -27,17 +28,28 @@ const IndexPageTemplate: React.FC<IndexPageTemplateProps> = function ({ category
           {category === 'Ingrédients' ? 'Créer un ingrédient' : category=== 'Recettes' ? 'Créer une recette' : 'Créer un menu'}
         </button>
       </div>
-      <h2 className="text-xl mb-4 font-bold text-gray-900">Liste des {category.toLowerCase()}</h2>
+      <h2 className="text-xl mb-4 font-bold text-gray-900">{category === 'Menus' ? 'Vos menus' : category}</h2>
       {category === 'Ingrédients' && (
-        <IngredientsList type='display'/>
+        <>
+          <IngredientsList type='display'/>
+        </>
         )}
       {category === 'Recettes' && (
+        <>
+        <h3 className="text-xl mb-4 font-semibold text-gray-800">Vos recettes</h3>
+        <RecettesListComponent type='display' displayType='users'/>
+        <h3 className="text-xl mb-4 font-semibold text-gray-800">Toutes les recettes</h3>
         <RecettesListComponent type='display'/>
+
+        </>
+        
       )}
       {category === 'Menus' && (
-        <></>)}
+     
+        <MenusListComponent/>
+        )}
     </div>
   );
-};
+}
 
 export default IndexPageTemplate;

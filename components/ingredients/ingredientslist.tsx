@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 interface IngredientsListProps {
   onIngredientsChange?: (selectedIngredients: Ingredient[]) => void;
   type: 'display' | 'form';
+  displayType?: 'users' | 'filtered' | 'all';
   loadedIngredients?: Ingredient[];
 }
 
